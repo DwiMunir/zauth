@@ -1,0 +1,12 @@
+{
+  "name": "zauth-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "bun --filter playground dev",
+    "build": "bun --filter zauth build"
+  }
+}
