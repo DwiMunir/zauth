@@ -341,6 +341,9 @@ bunx prisma db seed
 ## Middleware (Route Protection)
 
 Protect routes using Next.js middleware.
+> **Deprecated:**  
+> The following usage is deprecated and will be removed in a future release.  
+> Use the new middleware integration as described below.
 
 ```ts
 // middleware.ts
@@ -348,6 +351,32 @@ import { auth } from "@/lib/auth";
 
 export default auth.middleware();
 ```
+
+---
+
+### New Middleware Integration
+
+Protect routes using the new proxy/middleware pattern:
+
+```ts
+// middleware.ts
+import { zauth } from "@/lib/auth";
+import { NextResponse } from "next/server";
+
+export default function proxy(req: Request) {
+  const authResult = zauth.requireAuth(req);
+  if (authResult) return authResult;
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/dashboard/:path*"],
+};
+```
+
+- Use `zauth.requireAuth(req)` to enforce authentication in middleware/proxy.
+- Adjust the `matcher` to specify which routes to protect.
 
 Behavior:
 

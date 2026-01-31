@@ -12,7 +12,7 @@
     "seed": "bun tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@moonirdev/zauth": "^0.1.0",
+    "@moonirdev/zauth": "workspace:*",
     "@prisma/adapter-better-sqlite3": "^7.3.0",
     "@prisma/adapter-libsql": "^7.3.0",
     "@prisma/client": "^7.3.0",

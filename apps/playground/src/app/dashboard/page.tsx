@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { zauth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import DashboardPage from "./dashboard";

@@ -3,6 +3,7 @@ import { createSessionService } from "./core/session";
 import { createACLService } from "./core/acl";
 import { createAuditService } from "./core/audit";
 import { createMiddleware } from "./next/middleware";
+import { createRequireAuth } from "./next/require-auth";
 // create-auth.ts
 export function createAuth(opts) {
     const prisma = opts.prisma;
@@ -12,6 +13,7 @@ export function createAuth(opts) {
     const sessionSvc = createSessionService(prisma, cookieName, ttl);
     const aclSvc = createACLService(prisma);
     const auditSvc = createAuditService(prisma);
+    const requireAuth = createRequireAuth(getUser);
     const defaultRole = opts.defaults?.role ?? "admin";
     async function requireUser() {
         const session = await sessionSvc.getSession();
@@ -66,6 +68,7 @@ export function createAuth(opts) {
         },
         audit: auditSvc,
         middleware: createMiddleware(getUser),
+        requireAuth,
     };
 }
 //# sourceMappingURL=create-auth.js.map

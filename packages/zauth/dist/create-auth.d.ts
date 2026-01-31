@@ -36,5 +36,6 @@ export declare function createAuth(opts: {
         }): any;
     };
     middleware: () => (req: Request) => Promise<import("undici-types").Response | undefined>;
+    requireAuth: (req: Request) => Promise<import("next/server").NextResponse | void>;
 };
 //# sourceMappingURL=create-auth.d.ts.map
