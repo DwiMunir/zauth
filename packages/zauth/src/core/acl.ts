@@ -29,13 +29,15 @@ export function createACLService(prisma: any) {
     if (!user) return null;
 
     const permissions = new Set<string>();
+    const roleNames = new Set<string>();
     for (const ur of user.roles) {
+      roleNames.add(ur.role.name);
       for (const rp of ur.role.permissions) {
         permissions.add(rp.permission.key);
       }
     }
 
-    return { ...user, permissions: [...permissions] };
+    return { ...user, permissions: [...permissions], roles: [...roleNames] };
   }
 
   function can(user: AuthUser | null, permission: PermissionKey): boolean {

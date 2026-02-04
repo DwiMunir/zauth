@@ -1,0 +1,1 @@
+{"version":3,"file":"session-transport.d.ts","sourceRoot":"","sources":["../../src/core/session-transport.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,gBAAgB;IAC/B,GAAG,IAAI,OAAO,CAAC,MAAM,GAAG,IAAI,CAAC,CAAC;IAC9B,GAAG,CAAC,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,CAAC,CAAC;IACtC,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC,CAAC;CACxB"}

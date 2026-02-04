@@ -2,37 +2,29 @@ import { createAuthService } from "./core/auth";
 import { createSessionService } from "./core/session";
 import { createACLService } from "./core/acl";
 import { createAuditService } from "./core/audit";
-import { createMiddleware } from "./next/middleware";
-import { createRequireAuth } from "./next/require-auth";
+import { SessionTransport } from "./core/session-transport";
 
 // create-auth.ts
 export function createAuth(opts: {
   prisma: any;
-  session?: { cookieName?: string; ttlSeconds?: number };
-  defaults?: {
-    role?: string;
+  session: {
+    transport: SessionTransport;
+    ttlSeconds?: number;
   };
+  defaults?: { role?: string };
 }) {
-  const prisma = opts.prisma;
-  const cookieName = opts.session?.cookieName ?? "zauth.session";
-  const ttl = opts.session?.ttlSeconds ?? 60 * 60 * 24 * 7;
+  const ttl = opts.session.ttlSeconds ?? 60 * 60 * 24 * 7;
 
-  const authSvc = createAuthService(prisma);
-  const sessionSvc = createSessionService(prisma, cookieName, ttl);
-  const aclSvc = createACLService(prisma);
-  const auditSvc = createAuditService(prisma);
-  const requireAuth = createRequireAuth(getUser);
+  const authSvc = createAuthService(opts.prisma);
+  const aclSvc = createACLService(opts.prisma);
+  const auditSvc = createAuditService(opts.prisma);
   const defaultRole = opts.defaults?.role ?? "admin";
 
-  async function requireUser() {
-    const session = await sessionSvc.getSession();
-    if (!session) throw new Error("Unauthenticated");
-
-    const user = await aclSvc.loadUserWithPermissions(session.userId);
-    if (!user) throw new Error("User not found");
-
-    return user;
-  }
+  const sessionSvc = createSessionService(
+    opts.prisma,
+    opts.session.transport,
+    ttl
+  );
 
   async function getUser() {
     const session = await sessionSvc.getSession();
@@ -40,11 +32,18 @@ export function createAuth(opts: {
     return aclSvc.loadUserWithPermissions(session.userId);
   }
 
+  async function requireUser() {
+    const user = await getUser();
+    if (!user) throw new Error("Unauthenticated");
+    return user;
+  }
+
+
   async function register(email: string, password: string) {
     const user = await authSvc.register(email, password);
 
     if (defaultRole) {
-      const role = await prisma.role.findUnique({
+      const role = await opts.prisma.role.findUnique({
         where: { name: defaultRole },
       });
 
@@ -54,7 +53,7 @@ export function createAuth(opts: {
         );
       }
 
-      await prisma.userRole.create({
+      await opts.prisma.userRole.create({
         data: {
           userId: user.id,
           roleId: role.id,
@@ -76,15 +75,10 @@ export function createAuth(opts: {
       logout: sessionSvc.clear,
     },
     session: {
-      requireUser,
       getUser,
+      requireUser,
     },
-    acl: {
-      can: aclSvc.can,
-      sync: aclSvc.sync,
-    },
+    acl: aclSvc,
     audit: auditSvc,
-    middleware: createMiddleware(getUser),
-    requireAuth,
   };
 }

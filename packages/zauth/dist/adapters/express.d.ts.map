@@ -1,0 +1,1 @@
+{"version":3,"file":"express.d.ts","sourceRoot":"","sources":["../../src/adapters/express.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AACjD,OAAO,EAAE,gBAAgB,EAAE,MAAM,2BAA2B,CAAC;AAE7D,wBAAgB,uBAAuB,CACrC,GAAG,EAAE,OAAO,EACZ,GAAG,EAAE,QAAQ,EACb,UAAU,SAAkB,GAC3B,gBAAgB,CAelB"}

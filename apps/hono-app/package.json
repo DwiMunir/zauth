@@ -1,0 +1,23 @@
+{
+  "name": "hono-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "prisma": {
+    "seed": "bun tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@moonirdev/zauth": "workspace:*",
+    "@prisma/adapter-better-sqlite3": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "dotenv": "^17.2.3",
+    "hono": "^4.11.7"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prisma": "^7.3.0",
+    "tsx": "^4.21.0"
+  }
+}

@@ -1,17 +1,13 @@
 // core/session.ts
-import { cookies } from "next/headers";
+import { SessionTransport } from "./session-transport";
 
 export function createSessionService(
   prisma: any,
-  cookieName: string,
+  transport: SessionTransport,
   ttlSeconds: number
 ) {
-  async function getSessionId() {
-    return (await cookies()).get(cookieName)?.value;
-  }
-
   async function getSession() {
-    const sessionId = await getSessionId();
+    const sessionId = await transport.get();
     if (!sessionId) return null;
 
     const session = await prisma.session.findUnique({
@@ -30,25 +26,17 @@ export function createSessionService(
       },
     });
 
-    (await cookies()).set(cookieName, session.id, {
-      httpOnly: true,
-      path: "/",
-    });
-
+    await transport.set(session.id);
     return session;
   }
 
   async function clear() {
-    const session = await getSession();
-    if (session) {
-      await prisma.session.delete({ where: { id: session.id } }).catch(() => { });
+    const sessionId = await transport.get();
+    if (sessionId) {
+      await prisma.session.delete({ where: { id: sessionId } }).catch(() => { });
     }
-    (await cookies()).delete(cookieName);
+    await transport.clear();
   }
 
-  return {
-    getSession,
-    create,
-    clear,
-  };
+  return { getSession, create, clear };
 }

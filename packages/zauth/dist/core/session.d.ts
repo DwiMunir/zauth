@@ -1,4 +1,5 @@
-export declare function createSessionService(prisma: any, cookieName: string, ttlSeconds: number): {
+import { SessionTransport } from "./session-transport";
+export declare function createSessionService(prisma: any, transport: SessionTransport, ttlSeconds: number): {
     getSession: () => Promise<any>;
     create: (userId: string) => Promise<any>;
     clear: () => Promise<void>;

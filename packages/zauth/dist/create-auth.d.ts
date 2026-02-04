@@ -1,7 +1,8 @@
+import { SessionTransport } from "./core/session-transport";
 export declare function createAuth(opts: {
     prisma: any;
-    session?: {
-        cookieName?: string;
+    session: {
+        transport: SessionTransport;
         ttlSeconds?: number;
     };
     defaults?: {
@@ -14,10 +15,11 @@ export declare function createAuth(opts: {
         logout: () => Promise<void>;
     };
     session: {
-        requireUser: () => Promise<any>;
         getUser: () => Promise<any>;
+        requireUser: () => Promise<any>;
     };
     acl: {
+        loadUserWithPermissions: (userId: string) => Promise<any>;
         can: (user: {
             id: string;
             email: string;
@@ -35,7 +37,5 @@ export declare function createAuth(opts: {
             meta?: any;
         }): any;
     };
-    middleware: () => (req: Request) => Promise<import("undici-types").Response | undefined>;
-    requireAuth: (req: Request) => Promise<import("next/server").NextResponse | void>;
 };
 //# sourceMappingURL=create-auth.d.ts.map

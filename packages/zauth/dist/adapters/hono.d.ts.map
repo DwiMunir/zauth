@@ -1,0 +1,1 @@
+{"version":3,"file":"hono.d.ts","sourceRoot":"","sources":["../../src/adapters/hono.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,MAAM,CAAC;AACpC,OAAO,EAAE,gBAAgB,EAAE,MAAM,2BAA2B,CAAC;AAE7D,wBAAgB,oBAAoB,CAClC,CAAC,EAAE,OAAO,EACV,UAAU,SAAkB,GAC3B,gBAAgB,CAelB"}

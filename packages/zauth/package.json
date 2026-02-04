@@ -5,7 +5,22 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./express": {
+      "import": "./dist/adapters/express/index.js",
+      "types": "./dist/adapters/express/index.d.ts"
+    },
+    "./hono": {
+      "import": "./dist/adapters/hono/index.js",
+      "types": "./dist/adapters/hono/index.d.ts"
+    },
+    "./next": {
+      "import": "./dist/adapters/next/index.js",
+      "types": "./dist/adapters/next/index.d.ts"
+    }
   },
   "scripts": {
     "build": "tsc"
@@ -14,6 +29,27 @@
     "bcryptjs": "^3.0.3"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "typescript": "^5.4.0"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "express": ">=4",
+    "hono": ">=4",
+    "@nestjs/common": ">=10"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "express": {
+      "optional": true
+    },
+    "hono": {
+      "optional": true
+    },
+    "@nestjs/common": {
+      "optional": true
+    }
   }
 }

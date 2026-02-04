@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@moonirdev/zauth": [
+        "../../packages/zauth/src"
+      ],
+      "@moonirdev/zauth/*": [
+        "../../packages/zauth/src/*"
+      ]
+    }
+  }
+}

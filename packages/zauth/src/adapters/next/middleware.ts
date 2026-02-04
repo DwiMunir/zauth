@@ -6,7 +6,7 @@ export function createMiddleware(getUser: () => Promise<any>) {
 
       if (!user) {
         const url = new URL("/auth/login", req.url);
-        return Response.redirect(url, 302);
+        return Response.redirect(url.href, 302);
       }
     };
   };
